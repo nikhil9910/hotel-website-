@@ -1,0 +1,127 @@
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineClose } from "react-icons/md";
+import logo from "../assets/logo.jpg"; // Replace with your actual logo path
+import img1 from "../assets/facebook.png";
+import img2 from "../assets/instagram.png";
+import img3 from "../assets/whatsapp.png";
+
+const navLinks = [
+  { path: "/", label: "Home" },
+  { path: "/about", label: "About" },
+  { path: "/gallery", label: "Gallery" },
+  { path: "/contact", label: "Contact us" },
+  { path: "/services", label: "Services" },
+];
+
+const Navbar = () => {
+  const [showSidebar, setShowSidebar] = useState(false);
+  const location = useLocation();
+
+  const toggleSidebar = () => setShowSidebar(!showSidebar);
+
+  return (
+    <>
+      <nav className="w-full fixed top-0 bg-white shadow-md px-6 py-4 flex justify-between items-center z-50">
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center space-x-3 group">
+          <img src={logo} alt="Jee Ri Haveli Logo" className="h-[65px] w-auto object-contain rounded" />
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold tracking-wider text-[#2D4591] font-serif uppercase group-hover:text-[#07A2BB] transition-colors leading-none">
+              Jee Ri Haveli
+            </span>
+            <span className="text-xs font-semibold tracking-widest text-[#07A2BB] uppercase mt-1">
+              prototype
+            </span>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-8 text-lg">
+          {navLinks.map(({ path, label }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`${
+                location.pathname === path ? "text-[#2D4591]" : "text-gray-700"
+              } font-medium hover:text-[#07A2BB] transition-all`}
+            >
+              {label}
+            </Link>
+          ))}
+          <div className="flex gap-4">
+          <a href="https://www.facebook.com/share/1RERXw4QkC/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
+              <img src={img1} alt="Facebook Icon" className="h-[30px] w-[30px] object-contain" />
+            </a>
+            <a href="https://www.instagram.com/dhulikhelboutiquehotel?igsh=MXkwN3Nic3E5aTBwNQ==" target="_blank" rel="noopener noreferrer">
+              <img src={img2} alt="Instagram Icon" className="h-[30px] w-[30px] object-contain" />
+            </a>
+            <a href="https://wa.me/9779851096133" target="_blank" rel="noopener noreferrer">
+              <img src={img3} alt="WhatsApp Icon" className="h-[30px] w-[30px] object-contain" />
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <GiHamburgerMenu
+          className="text-3xl lg:hidden cursor-pointer"
+          onClick={toggleSidebar}
+        />
+
+        {/* Mobile Sidebar */}
+        {showSidebar && (
+          <div className="fixed top-0 left-0 w-[300px] h-full bg-white shadow-lg z-50 flex flex-col">
+            {/* Logo and Close Button */}
+            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
+              <Link to="/" onClick={toggleSidebar} className="flex items-center space-x-2">
+                <img src={logo} alt="Jee Ri Haveli Logo" className="h-[48px] w-auto object-contain rounded" />
+                <div className="flex flex-col">
+                  <span className="text-lg font-bold tracking-wider text-[#2D4591] font-serif uppercase leading-none">
+                    Jee Ri Haveli
+                  </span>
+                  <span className="text-[10px] font-semibold tracking-widest text-[#07A2BB] uppercase mt-1">
+                    prototype
+                  </span>
+                </div>
+              </Link>
+              <MdOutlineClose className="text-2xl cursor-pointer text-gray-700 hover:text-red-500 transition-colors" onClick={toggleSidebar} />
+            </div>
+
+            {/* Nav Links */}
+            {navLinks.map(({ path, label }) => (
+              <Link
+                key={path}
+                to={path}
+                className={`${
+                  location.pathname === path ? "text-[#099BA4]" : "text-gray-700"
+                } font-medium py-3 px-6 border-b border-gray-200 hover:bg-gray-100`}
+                onClick={toggleSidebar}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* Social Icons in Sidebar */}
+            <div className="flex justify-center gap-4 mt-4 px-6">
+              <a href="https://www.facebook.com/share/1RERXw4QkC/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
+                <img src={img1} alt="Facebook Icon" className="h-[30px] w-[30px] object-contain" />
+              </a>
+              <a href="https://www.instagram.com/dhulikhelboutiquehotel?igsh=MXkwN3Nic3E5aTBwNQ==" target="_blank" rel="noopener noreferrer">
+                <img src={img2} alt="Instagram Icon" className="h-[30px] w-[30px] object-contain" />
+              </a>
+              <a href="https://wa.me/9779851096133" target="_blank" rel="noopener noreferrer">
+                <img src={img3} alt="WhatsApp Icon" className="h-[30px] w-[30px] object-contain" />
+              </a>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Spacer */}
+      <div className="h-[90px]"></div>
+    </>
+  );
+};
+
+export default Navbar;
